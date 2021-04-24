@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org/"
+	th:replace="~{fragments/layoutStudent :: layoutStudent (~{::body},'student')}">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="card-box mb-30">
+		<div class="pd-20">
+			<h3>Visualizar Avaliações</h3>
+		</div>
+
+
+		<div th:each="instance : ${tasksProfessorList}">
+			<div th:each="classes : *{instance.key.classes}"
+				th:if="${#lists.contains(classes.students, student) AND #lists.contains(classes.tasks, instance.key)}">
+
+
+				<div class="col-sm-12 col-md-12 mb-30">
+					<div class="card card-box">
+						<h5 class="card-header weight-500"
+              th:utext="${'Disciplina: ' + classes.discipline.code + ' - ' + classes.discipline.name + '<br />' + 'Turma: ' + classes.code + '<br />' + 'Tarefa: ' + instance.key.title}"></h5>
+						<div class="card-body">
+							<p
+								th:if="${#bools.isTrue(instance.value != null) AND #bools.isTrue(instance.value.feedback.sent)}"
+								th:text="${instance.value.feedback.comment}" maxlength="200"></p>
+							<a
+								th:if="${#bools.isTrue(instance.value != null) AND #bools.isTrue(instance.value.feedback.sent)}"
+								th:href="@{/feedbackList/viewFeedback/__${classes.id}__/__${instance.value.feedback.id}__}">Ver
+								Avaliação</a>
+							<p
+								th:if="${#bools.isTrue(instance.value != null) AND #bools.isFalse(instance.value.feedback.sent)}"
+								th:utext="${'Trabalho entregue em ' + #temporals.format(instance.value.postedTime , 'dd/MM/yyyy HH:mm:ss') + '<br />' + 'Avaliação não concluída'}"></p>
+							<p th:if="${#bools.isTrue(instance.value == null)}"
+								th:text="${'ATENÇÃO: Você ainda não entregou a atividade, a data limite é ' + #temporals.format(instance.key.taskTime , 'dd/MM/yyyy HH:mm:ss')}"></p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<br>
+	</div>
+</body>
+</html>

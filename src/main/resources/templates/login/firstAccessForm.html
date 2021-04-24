@@ -1,0 +1,32 @@
+ <html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Spring Boot User Authentication</title>
+</head>
+	<meta charset="utf-8">
+	<body>
+	<img src="../static/resources/images/escola-politecnica.png"
+              th:src="@{/resources/images/escola-politecnica.png}" alt="Sponsored by Pivotal" height= "50" width= "360"/>
+        <h3>Primeiro acesso </h3>
+        <h2>Alterar senha</h2>
+        <form class="form-horizontal" th:action="@{/firstAccessForm}" method="post" th:object="${firstAccessDTO}" >
+            <div class="form-group has-feedback">
+           		
+           		<label th:inline="text">[[${#httpServletRequest.remoteUser}]]</label>
+           		<br>
+           		<br>
+	            <input
+        			th:replace="~{fragments/inputField :: input ('Nova Senha', 'password', 'password')}" />
+	            
+	            <input
+        			th:replace="~{fragments/inputField :: input ('Confirmar Nova Senha', 'confirmation', 'password')}" />
+	        </div>
+	        
+            <div class="form-group">
+            	<div >
+				<button class="btn btn-default" type="submit">Confirmar</button>
+				</div>
+            </div>
+        </form> 
+    </body>
+</html>
+

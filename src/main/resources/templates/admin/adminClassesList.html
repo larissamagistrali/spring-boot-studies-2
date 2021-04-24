@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layoutAdm :: layoutAdm (~{::body},'classes')}">
+
+<head>
+<meta charset="utf-8">
+</head>
+
+<body>
+	<div style="padding: 10px;" class="card-box mb-30">
+		<h3>Listar Turmas</h3>
+		<br>
+		<form>
+			<div class="form-group">
+				<label>Professor</label> <select class="form-control"
+					name="fieldProfessor" id="fieldProfessor" required>
+					<option value="0" selected>Selecione um professor</option>
+					<option th:each="i : ${professorList}" th:value="${i.id}"
+						th:text="${i}"></option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Disciplina</label> <select class="form-control"
+					name="fieldDiscipline" id="fieldDiscipline" required>
+					<option value="0" selected>Selecione uma disciplina</option>
+					<option th:each="i : ${disciplineList}" th:value="${i.id}"
+						th:text="${i.name}"></option>
+				</select>
+			</div>
+			<button style="float: right; clear: both;"
+				class="btn btn-secondary scroll-click">Buscar</button>
+			<br> <br>
+		</form>
+	</div>
+	<div id="div">
+		<div class="card-box mb-30">
+			<div class="table-responsive  pb-20">
+				<table  id="table" style="display: none;" class="table table-striped" >
+					<thead>
+						<tr>
+							<th>Código da disciplina</th>
+							<th>Nome da disciplina</th>
+							<th>Código da turma</th>
+							<th>Professor</th>
+							<th>Ações</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="classes : ${classesList}">
+							<td th:text="${classes.discipline.code}"></td>
+							<td th:text="${classes.discipline.name}"></td>
+							<td th:text="${classes.code}"></td>
+							<td th:text="${classes.professor}"></td>
+							<td><div class="dropdown">
+									<a	class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> 									
+									<i	class="dw dw-more"></i>
+								</a>
+									<div
+										class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+										<a class="dropdown-item" href="#"><i class="dw dw-eye"></i>	Visualizar</a>
+										<a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Editar</a> 
+										<a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Deletar</a>			
+									</div>
+								</div></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	
+
+	<script>
+	var x = document.getElementById("table").rows.length;
+	if(x > 1){
+		window.onload = show();
+	}
+	function show() {
+		document.getElementById("table").style.display="table";
+	}
+	</script>
+
+</body>
+</html>
+
+

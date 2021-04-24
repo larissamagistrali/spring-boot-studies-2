@@ -1,0 +1,77 @@
+<html xmlns:th="https://www.thymeleaf.org/"
+	th:replace="~{fragments/layoutProfessor :: layoutProfessor (~{::body},'visualizar_tarefas')}">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<div class="card-box mb-30">
+		<div class="pd-20">
+			<h3>Visualizar Entregas</h3>
+		</div>
+		<div class="main-containeer" id="main-containeer">
+
+			<!-- Left containeer -->
+			<div class="containeer">
+				<div class="roww">
+					<div class="coll-header"></div>
+					<header style="color:#fff;">Turmas</header>
+				</div>
+
+				<div class="containeer-aux">
+					<div style="padding:1px;"
+						th:each="classProfessor : ${classesList}">
+						<a style="margin-top:1px;"
+							th:href="@{/taskProfessor/viewDelivery/?(classId=${classProfessor.id})}"
+							class="btn btn-secondary btn-sm btn-block" 
+							th:value="${classProfessor.code}"
+							th:text="${classProfessor.discipline.name} + '/ Turma '+ ${classProfessor.code}">
+							
+						</a>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- right containeer-->
+			<div class="containeer-selected" id="containeer-selected">
+				<header>Tarefas</header>
+				<div class="container-aux" id="selectedStudents"
+					th:each="taskProfessor : ${tasks}">
+					<div class="alert alert-primary" role="alert">
+						<div>
+							<p>
+								<b th:text=" 'Tarefa: ' + ${taskProfessor.title}"></b>
+							</p>
+							<p
+								th:text=" 'Total de alunos: ' + ${taskProfessor.getStudentSize(taskProfessor)}"></p>
+							<p
+								th:text=" 'Total de trabalhos enviados: ' + ${taskProfessor.getTasksStudentSize()}"></p>
+							<p
+								th:text=" 'Total de trabalhos já avaliados: ' + ${feedbacks.get(taskProfessor.id)}"></p>
+							<p
+								th:text=" 'Data limite para entrega: ' + ${#temporals.format(taskProfessor.taskTime , 'dd/MM/yyyy HH:mm:ss')}"></p>
+							<p th:text=" 'Status: ' + ${taskProfessor.status}"></p>
+
+							<p>
+								<a class="btn btn-success btn-sm btn-block"
+									th:href="@{'/taskProfessor/viewDelivery/'+ ${taskProfessor.getClassId(taskProfessor)} + '/' + ${taskProfessor.id}}">Entregas</a>
+							</p>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		let btn = document.getElementsByClassName("containeer-roww");
+		let task = document.getElementsByClassName("container-aux");
+		btn.onclick = function() {
+			task[0].style.display = "";
+		}
+	</script>
+
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layoutAdm :: layoutAdm (~{::body},'error')}">
+
+  <body>
+    <i class="icon-copy fa fa-exclamation-triangle" aria-hidden="true"></i>
+    <p th:text="${message}">Exception message</p>
+  </body>
+
+</html>

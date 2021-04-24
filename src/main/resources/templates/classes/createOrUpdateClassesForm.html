@@ -1,0 +1,107 @@
+<html xmlns:th="https://www.thymeleaf.org/"
+	th:replace="~{fragments/layoutAdm :: layoutAdm (~{::body},'turma')}">
+<head>
+<meta charset="UTF-8" />
+
+</head>
+<body>
+<div style="padding: 10px;" class="card-box mb-30">
+	<form id="formClasses" class="form-horizontal"
+		th:object="${classesDTO}" method="post">
+		<div class="tab-menu">
+			<div class="tabs">
+				<div class="tab selected" id="create">Cadastro da Turma</div>
+				<div class="tab" id="list">Selecionar Alunos</div>
+			</div>
+			<br>
+			<div class="content">
+				<h3>Cadastro de Turma</h3>
+				<br>
+				<div class="form-group">
+					<label for="code">Código</label> <input class="form-control"
+						type="text" id="code" name="code" th:field="*{code}" />
+					<div style="color:red;" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">
+						Código inválido</div>
+				</div>
+				<div class="form-group">
+					<label for="discipline">Disciplina</label> <select
+						class="form-control" id="discipline" th:field="*{discipline}">
+						<option value="">Selecione uma disciplina</option>
+						<option th:each="disc : ${disciplineList}" th:value="${disc.id}"
+							th:text="${disc.name}" th:field="*{discipline}"></option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="teacher">Professor</label>
+					<select class="form-control" id="professor" th:field="*{professor}">
+							<option value="">Selecione um professor</option>
+							<option th:each="professor : ${professorList}"
+								th:value="${professor.id}" th:text="${professor.login.name}"
+								th:field="*{professor}"></option>
+						</select>				
+				</div>
+				<div class="form-group">
+					<label for="observation">Observação:</label>
+					<textarea class="form-control" name="observation" id="observation" cols="30" rows="10"
+							placeholder="Escreva algo.." th:field="*{observation}"></textarea>
+				</div>			
+			</div>
+
+			<div style="display: none;" class="content">
+				<h3>Selecionar Alunos</h3>
+				<br>
+				<div class="main-containeer" id="main-containeer">
+					<!-- Left containeer -->
+					<div class="containeer">
+						<div class="roww">
+							<div class="coll-header"></div>
+							<header>
+								<span style="color:#fff;">Alunos</span><input type="text" name="search" id="search"
+									placeholder="Filtro" onkeyup="Filter()" />
+							</header>
+						</div>
+
+						<div class="containeer-aux" id="students">
+							<div th:each="student :  ${studentList}">
+								<div class="containeer-roww">
+									<div class="coll-10">
+										<input class="checkboxx" type="checkbox"
+											th:value="${student.login.name}" name="studentCheck">
+									</div>
+									<div class="coll-90" th:value="${student.login.id}"
+										th:text="${student.login.name}"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="buttons" id="buttons">
+						<button id="to-right">&#62</button>
+						<button id="to-left">&#60</button>
+					</div>
+
+					<!-- right containeer-->
+					<div class="containeer-selected" id="containeer-selected">
+						<header>Alunos Selecionados</header>
+						<div class="container-aux" id="selectedStudents"></div>
+
+
+					</div>
+				</div>
+				<div class="roww button">
+					<button id="save"  style="float:right;clear:both;" class="btn save btn-secondary scroll-click" type="submit">Salvar</button>
+				</div><br><br>
+			</div>
+
+		</div>
+		<div style="display: none">
+			<select id="selectedStudentsList" th:field="*{studentList}" multiple>
+				<option th:each="selectedStudents : ${selectedStudentsList}"
+					th:value="${selectedStudents}" th:text="${selectedStudents}"
+					th:field="*{studentList}"></option>
+			</select>
+		</div>
+	</form>
+</div>
+</body>
+</html>

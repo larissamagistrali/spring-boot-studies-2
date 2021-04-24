@@ -1,0 +1,75 @@
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layoutStudent :: layoutStudent (~{::body},'aluno')}">
+
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div style="padding: 10px;" class="card-box mb-30">
+		<h3>Tarefa
+		</h3><br>
+		<form th:object="${taskStudent}" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<input type="text" class="form-control" readonly="readonly" th:value="${task.title}">
+			</div>
+			<div class="form-group row">
+			    <div class="form-group col-md-6">
+			      <label>Disciplina</label>
+			      <input type="text" class="form-control" readonly="readonly" th:value="${discipline.name}">
+			    </div>
+			    <div class="form-group col-md-6">
+			      <label >Turma</label>
+			      <input type="text" class="form-control" readonly="readonly" th:value="${class.code}">
+			    </div>
+			 </div>
+			<div class="form-group">
+				<label>Professor</label>
+				<input type="text" class="form-control" readonly="readonly" th:value="${professor.login.name}">
+			</div>
+			<div class="form-group row">
+			    <div class="form-group col-md-6">
+			      <label >Data de entrega</label>
+			      <input type="text" class="form-control" readonly="readonly" th:value="${#temporals.format(task.taskTime, 'dd-MM-yyyy HH:mm:ss')}">
+			    </div>
+			    <div class="form-group col-md-6">
+			      <label >Status</label>
+			      <input type="text" class="form-control" readonly="readonly" th:value="*{sendTask}  ? 'ENVIADA' : 'SALVA'">
+			    </div>
+			 </div>
+			<div class="form-group">
+				<label>Tarefa</label>
+				<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" th:field="${task.details}" readonly="readonly"></textarea>
+			</div>
+			
+			<div class="form-group">
+				<label >Arquivo da tarefa</label>
+				<a th:if="${task.fileModel != null}" th:href="@{/api/file/__${task.fileModel.id}__}" th:text="${task.fileModel.name}"></a>
+			</div>
+			
+			<div class="form-group">
+				<label>Comentário</label>
+				<textarea class="form-control" name="comment" id="comment" th:field="*{comment}" rows="3"></textarea>
+				<div style="color:red;" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></div>
+			</div>
+			
+			<div class="form-group">
+				<label>Arquivo</label>
+				<input class="form-control"  type="file" th:field="*{files}">
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Arquivo Enviado</label>
+				<a th:if="${fileModel != null}" th:href="@{/api/file/__${fileModel.id}__}" th:text="${fileModel.name}"></a>
+			</div>	
+			<div class="custom-control custom-checkbox">
+			    <input type="checkbox"   id="customCheck" class="custom-control-input" th:field="*{sendTask}">
+			    <label class="custom-control-label" for="customCheck">Enviar Tarefa</label>
+			 </div>
+			 
+			<button style="float:right;clear:both;" class="btn btn-secondary scroll-click" type="submit">Salvar</button><br><br>
+		</form>
+		<span  style="display:none;" id="taskStudentId" th:text="${taskStudentId}"></span>
+		<span  style="display:none;" id="taskProfessorId" th:text="${taskProfessorId}"></span>
+	</div>
+</body>
+</html>

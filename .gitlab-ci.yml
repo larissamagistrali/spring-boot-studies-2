@@ -1,0 +1,35 @@
+image: java:8
+
+stages:
+  - build
+  - deploy
+
+before_script:
+  - chmod +x mvnw
+
+build:
+  stage: build
+  script:
+    - ./mvnw package -DskipTests
+
+staging:
+  stage: deploy
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_STAGING_APP_NAME --api-key=$HEROKU_STAGING_API_KEY --skip_cleanup
+  only:
+    - dev
+
+production:
+  stage: deploy
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_PRODUCTION_APP_NAME --api-key=$HEROKU_PRODUCTION_API_KEY --skip_cleanup
+  only:
+    - master

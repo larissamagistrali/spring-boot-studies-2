@@ -1,0 +1,62 @@
+
+ <!DOCTYPE html>
+ <html xmlns:th="https://www.thymeleaf.org" th:replace="~{fragments/layoutProfessor :: layoutProfessor (~{::body},'task')}">
+<head>
+<meta charset="utf-8">
+</head>
+
+ <body>   
+ 	<div style="padding: 10px;" class="card-box mb-30">    
+        <h2>Criar Tarefa </h2><br>
+		
+		<form th:action="@{/taskProfessor/new}" method="post" th:object="${taskProfessorDTO}" enctype="multipart/form-data">
+				
+			   <div class="form-group">
+					<label>Disciplina</label>
+					<select onchange="loadClasses(this.value)" id="field_disciplines" required class="selectpicker form-control" data-style="btn-outline-primary" data-size="5">
+		            	<option value="" selected >Selecione uma disciplina</option>
+					    <option  th:each="i : ${disciplines}" th:value="${i.id}" th:text="${i.name}"></option>
+					</select>	</div>
+				
+				<div class="form-group">
+					<label>Turma</label>				
+		            <select  class=" form-control" multiple id="field_classes" th:field="*{classes}" required>
+					    <option th:title="${i.discipline.id}" th:each="i : ${classesDiscipline}"  th:field="*{classes}"  th:value="${i.code}" th:text="${i.code}"></option>
+					</select>
+				</div>
+				
+	            <div class="form-group">
+					<label>Título</label>
+					<input   id="title" name="title" th:field="*{title}" required class="form-control" type="text">
+					<div style="color:red;" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label>Detalhes</label>
+					<textarea th:field="*{details}" required class="form-control"></textarea>
+					<div  style="color:red;" th:if="${#fields.hasErrors('details')}" th:errors="*{details}"></div>
+				</div>
+	            
+	            <div class="form-group">
+					<label>Arquivo</label>
+					<input th:field="*{files}" type="file" class="form-control-file form-control height-auto">
+				</div>
+				<div class="form-group">
+					<label>Data/Hora de entrega</label>
+					<input name="datepicker" th:field="*{taskTime}" class="form-control" placeholder="Escolha uma data e hora" type="datetime-local">
+					<div  style="color:red;" th:if="${#fields.hasErrors('taskTime')}" th:errors="*{taskTime}"></div>
+				</div>
+						
+             	<div class="form-group">
+		            <input type="checkbox" th:field="*{status}"/>
+		            <label>Enviar para alunos</label>
+		       </div>
+				
+				<button style="float:right;clear:both;" class="btn btn-secondary scroll-click" type="submit">Salvar</button><br>
+        </form>	<br>
+       </div>
+    </body>
+
+</html>
+
+

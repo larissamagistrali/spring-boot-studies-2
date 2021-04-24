@@ -1,0 +1,31 @@
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layoutAdm :: layoutAdm (~{::body},'discipline')}">
+
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<div style="padding: 10px;" class="card-box mb-30">
+			<h3>Cadastro de Disciplinas</h3><br>
+			<form th:action="@{/discipline/new}" th:object="${disciplineDTO}" method="post">
+				
+				<div class="form-group">
+					<label>Código</label>
+					<input  id="registration" name="code" th:field="*{code}" class="form-control" type="text">
+					<div style="color:red;" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
+				</div>
+				<div class="form-group">
+					<label>Nome</label>
+					<input name="name" id="name" class="form-control" type="text" >
+					<div style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+				</div>
+				<div class="form-group">
+					<label>Observação</label>
+					<input name="email" id="observation" class="form-control" type="text" >
+					<div style="color:red;" th:if="${#fields.hasErrors('observation')}" th:errors="observation"></div>
+				</div>
+				<button style="float:right; clear:both;" class="btn btn-secondary scroll-click" type="submit">Salvar</button><br><br>
+			</form>
+		</div>
+	</body>
+</html>

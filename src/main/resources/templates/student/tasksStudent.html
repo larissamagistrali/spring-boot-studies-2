@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org/"
+  th:replace="~{fragments/layoutStudent :: layoutStudent (~{::body},'taskStudent')}">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="card-box mb-30">
+		<div class="pd-20">
+			<h3>Próximas Entregas</h3>
+		</div>
+		<div  class="table-responsive pb-20">
+			<table id="tasks" class="table table-striped">
+				<thead>
+					<tr>
+						<th>Título da Tarefa</th>
+						<th>Disciplina</th>
+						<th>Turma</th>
+						<th>Professor</th>
+						<th>Data Limite</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr id="listalink" th:each="task,i : ${taskList}">
+						<td><a	th:href="@{/taskStudent/__${task.key.id}__/new}" th:text="${task.key.title}"></a></td>
+						<td><a th:href="@{/taskStudent/__${task.key.id}__/new}"	th:text="${task.value.discipline.name}"></a></td>
+						<td><a th:href="@{/taskStudent/__${task.key.id}__/new}"	th:text="${task.value.code}"></a></td>
+						<td><a th:href="@{/taskStudent/__${task.key.id}__/new}"	th:text="${task.value.professor.login.name}"></a></td>
+						<td><a th:href="@{/taskStudent/__${task.key.id}__/new}"	th:text="${#temporals.format(task.key.taskTime, 'dd/MM/yyyy hh:mm:ss')}"></a></td>
+						<td th:switch="${statusList[i.index]}"><a th:href="@{/taskStudent/__${task.key.id}__/new}">
+							<span th:case="true" class="badge badge-success">Enviado</span>
+							<span th:case="false" class="badge badge-secondary">Aguardando Envio</span>
+						</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

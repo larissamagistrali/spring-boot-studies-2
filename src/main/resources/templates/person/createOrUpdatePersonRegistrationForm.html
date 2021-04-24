@@ -1,0 +1,49 @@
+
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layoutAdm :: layoutAdm (~{::body},'person')}">
+
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+	<div style="padding: 10px;" class="card-box mb-30">
+	<h3>Cadastro de Pessoa</h3><br>
+		<form th:action="@{/person/new}" method="post" th:object="${loginDTO}">
+			
+			<div class="form-group">
+				<label>Matrícula</label>
+				<input  id="registration" name="registration" th:field="*{registration}" class="form-control" type="text">
+				<div style="color:red;" th:if="${#fields.hasErrors('registration')}" th:errors="*{registration}"></div>
+			</div>
+			<div class="form-group">
+				<label>Nome</label>
+				<input name="name" id="name" class="form-control" type="text" >
+				<div style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+			</div>
+			<div class="form-group">
+				<label>E-mail</label>
+				<input name="email" id="email" class="form-control" type="email" >
+				<div style="color:red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+			</div>
+			<div class="form-group">
+				<label>Perfil</label>
+				<div class="custom-control custom-radio mb-5">
+					<input type="radio" id="professor" value="Professor" th:name="role"	checked class="custom-control-input">
+					<label class="custom-control-label" for="professor">Professor</label>
+				</div>
+				<div class="custom-control custom-radio mb-5">
+					<input type="radio" id="aluno" value="Student" th:name="role" class="custom-control-input">
+					<label class="custom-control-label" for="aluno">Aluno</label>
+				</div>
+				<div class="custom-control custom-radio mb-5">
+					<input type="radio" id="administrador"	value="Admin" th:name="role" class="custom-control-input">
+					<label class="custom-control-label" for="administrador">Administrador</label>
+				</div>
+				<div style="color:red;" th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></div>
+			</div>
+			<button style="float:right;clear:both;" class="btn btn-secondary scroll-click" type="submit">Salvar</button><br><br>
+		</form>
+	</div>
+</body>
+</html>
+

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/" th:replace="~{fragments/layoutAdm :: layoutAdm (~{::body},'discipline')}">
+
+	<head>
+		<!-- Basic Page Info -->
+		<meta charset="utf-8">
+		<title>Lista de Disciplinas</title>
+	</head>
+
+	<body>
+		<div class="card-box mb-30">
+			<div class="pd-20">
+				<h3>Lista de Disciplinas</h3>
+			</div>
+			<div class="pb-20">
+				<table class="table stripe hover nowrap">
+					<thead>
+						<tr>
+							<th >Nome</th>
+							<th >Código</th>
+							<th >Ações</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="discipline : ${disciplineList}">
+							<td class="table-plus" th:text="${discipline.name}"></td>
+        					<td th:text="${discipline.code}"></td>
+							<td>
+								<div class="dropdown">
+									<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+										<i class="dw dw-more"></i>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+										<a class="dropdown-item" href="#"><i class="dw dw-eye"></i> Visualizar</a>
+										<a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Editar</a>
+										<a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Deletar</a>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>

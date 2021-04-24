@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/layoutProfessor :: layoutProfessor (~{::body},'visualizar_tarefas')}">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8">
+</head>
+<body>
+
+	<div style="padding: 10px;" class="card-box mb-30">
+		<h3>Listar Tarefas</h3>
+		<br>
+		<form>
+			<div class="form-group">
+				<label>Disciplinas</label> 
+				<select class="form-control"
+					name="disciplineId" id="disciplineId">
+					<option value="" selected disabled>Selecione uma disciplina...</option>
+					<option th:each="discipline : ${disciplines}"
+						th:value="${discipline.id}" th:text="${discipline.name}"></option>
+				</select>
+			</div>
+			<button style="float: right; clear: both;"
+				class="btn btn-secondary scroll-click" type="submit">Buscar</button>
+			<br> <br>
+		</form>
+	</div>
+	<div id="div" style="display: none;">
+		<div class="pd-20 card-box mb-30">
+				<div class=" table-responsive clearfix mb-20">
+				<table id="tableTaskList" class=" table-striped table">
+					<thead>
+						<tr>
+							<th >Disciplina</th>
+							<th >Turma</th>
+							<th >Tarefa</th>
+							<th >Data de Entrega</th>
+							<th >Ações</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="instance: ${classesTasks}"
+							th:with="class=${instance.value}">
+							<td th:text="${disciplineName}"></td>
+							<td th:text="${class.getCode()}"></td>
+							<td th:text="${instance.key.getTitle()}"></td>
+							<td	th:text="${#temporals.format(instance.key.getTaskTime(), 'dd/MM/yyyy HH:mm:ss')}"></td>
+							<td><div class="dropdown">
+								<a	class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"> 									
+									<i	class="dw dw-more"></i>
+								</a>
+								<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+									<a class="dropdown-item" href="#"><i class="dw dw-eye"></i>	Visualizar</a>
+									<a class="dropdown-item" href="#"><i class="dw dw-edit2"></i> Editar</a> 
+									<a class="dropdown-item" href="#"><i class="dw dw-delete-3"></i> Deletar</a>		
+								</div>
+							</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

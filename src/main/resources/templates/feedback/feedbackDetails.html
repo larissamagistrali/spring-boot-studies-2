@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org/"
+	th:replace="~{fragments/layoutStudent :: layoutStudent (~{::body},'student')}">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="card-box mb-30">
+		<div class="pd-20">
+			<h3
+				th:text="${classes.discipline.code + ' - ' + classes.discipline.name + '   /   Turma' + classes.code}"></h3>
+		</div>
+
+		<center>
+			<p th:if="${feedback != null AND feedback.comment != null}"
+				th:text="${feedback.comment}">
+		</center>
+
+		<button style="float:right;clear:both;margin-right:5px;" class="btn btn-secondary scroll-click" th:if="${feedback != null AND feedback.fileModel != null}"
+			type="button"
+			th:onclick="|window.location.href = '@{/api/file/__${feedback.fileModel.id}__}'|"
+			download="feedback">Abrir Anexo</button>
+		<button style="float:right;clear:both;margin-right:5px;" class="btn btn-secondary scroll-click" onclick="location.href='/feedbackList/'" type="button">Fechar</button>
+	<br><br></div>
+</body>
+</html>

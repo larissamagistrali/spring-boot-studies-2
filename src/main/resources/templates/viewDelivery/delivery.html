@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org/"
+	th:replace="~{fragments/layoutProfessor :: layoutProfessor (~{::body},'taskProfessor')}">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8">
+</head>
+<body>
+	<div class="card-box mb-30">
+			<div class="pd-20">
+				<h3 th:text="${classes.discipline.code + ' - ' + classes.discipline.name + '   /   ' + classes.code}"></h3><br>
+				<h5 th:text="${taskProfessor.title}"></h5>
+			</div>
+			<div class="pb-20">
+				<table class="table stripe hover nowrap">
+
+		<thead>
+			<tr>
+				<th>Nome do Aluno</th>
+				<th>E-mail</th>
+				<th>Data/Hora da Entrega</th>
+				<th>Finalizada</th>
+				<th>Enviado</th>
+				<th>Ação</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr id="listalink" th:each="student : ${classes.students}">
+				<td><a class="textolink" th:text="${student.login.name}"></a></td>
+
+				<td><a class="textolink" th:text="${student.login.email}"></a></td>
+
+				<td th:each="taskStudent : ${student.taskStudent}" th:if="${#lists.contains(taskProfessor.tasksStudent, taskStudent)}">
+					<a class="textolink" th:text="${#temporals.format(taskStudent.postedTime , 'dd/MM/yyyy HH:mm:ss')}"></a>
+				</td>
+				<td th:if="${#lists.isEmpty(student.taskStudent)}">
+					<a class="textolink">Não enviado</a>
+				</td>
+				<td th:if="${#bools.isFalse(#lists.isEmpty(student.taskStudent)) AND #bools.isFalse(taskProfessor.HasAnyTaskStudentFromStudent(student))}">
+					<a class="textolink">Não enviado</a>
+				</td>
+				
+
+				<td th:each="taskStudent : ${student.taskStudent}" th:if="${#lists.contains(taskProfessor.tasksStudent, taskStudent)}">
+					<a class="textolink" th:if="${#bools.isTrue(taskStudent.feedback.status)}" ><button type="button" class="btn btn-success"></button></a> 
+					<a class="textolink" th:if="${#bools.isFalse(taskStudent.feedback.status)}"><button type="button" class="btn btn-warning"></button></a>
+				</td>
+				<td th:if="${#lists.isEmpty(student.taskStudent)}"><a class="textolink"><button type="button" class="btn btn-danger"></button></a></td>
+				<td th:if="${#bools.isFalse(#lists.isEmpty(student.taskStudent)) AND #bools.isFalse(taskProfessor.HasAnyTaskStudentFromStudent(student))}">
+					<a class="textolink"><button type="button" class="btn btn-danger"></button></a>
+				</td>
+
+				<td th:each="taskStudent : ${student.taskStudent}" th:if="${#lists.contains(taskProfessor.tasksStudent, taskStudent)}" th:switch="${taskStudent.feedback.sent}">
+					<a class="textolink" th:case="true">Enviado</a> 
+					<a class="textolink" th:case="false">Não enviado</a>
+				</td>
+				<td th:if="${#lists.isEmpty(student.taskStudent)}"><a
+					class="textolink">Não enviado</a>
+				</td>
+				<td th:if="${#bools.isFalse(#lists.isEmpty(student.taskStudent)) AND #bools.isFalse(taskProfessor.HasAnyTaskStudentFromStudent(student))}">
+					<a class="textolink">Não enviado</a>
+				</td>
+
+				<td th:each="taskStudent : ${student.taskStudent}"	th:if="${#lists.contains(taskProfessor.tasksStudent, taskStudent)}">
+					<a class="textolink" th:href="@{/taskProfessor/viewDelivery/__${classes.id}__/__${taskProfessor.id}__/__${taskStudent.id}__}">Avaliar</a>
+				</td>
+
+				<td th:if="${#lists.isEmpty(student.taskStudent)}">
+					<a class="textolink"></a>
+				</td>
+				<td th:if="${#bools.isFalse(#lists.isEmpty(student.taskStudent)) AND #bools.isFalse(taskProfessor.HasAnyTaskStudentFromStudent(student))}">
+					<a class="textolink"></a>
+				</td>
+
+			</tr>
+
+		</tbody>
+	</table>
+
+
+	<button style="float:right;clear:both;margin-right:10px;" class="btn btn-secondary scroll-click" type="button" th:onclick="|window.location.href = '@{/taskProfessor/viewDelivery/__${classes.id}__/__${taskProfessor.id}__/sent}'|">Enviar</button><br><br>
+</body>
+</html>

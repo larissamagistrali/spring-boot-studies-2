@@ -1,0 +1,1 @@
+ALTER TABLE login ADD firstTime BIT not null;
