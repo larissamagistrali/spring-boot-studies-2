@@ -18,8 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import com.sun.istack.NotNull;
-
 import br.pucrs.politecnica.assignments.discipline.Discipline;
 import br.pucrs.politecnica.assignments.professor.Professor;
 import br.pucrs.politecnica.assignments.student.Student;
@@ -35,7 +33,6 @@ public class Classes implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
 	@Size(max = 5)
 	private String code;
 
